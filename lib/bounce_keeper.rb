@@ -1,5 +1,4 @@
 require 'file-tail'
-require 'bounce-keeper/cli'
-require 'bounce-keeper/keeper'
-require 'bounce-keeper/loader'
-require 'bounce-keeper/sender'
+require_relative 'bounce_keeper/cli'
+require_relative 'bounce_keeper/keeper'
+require_relative 'bounce_keeper/sender'
