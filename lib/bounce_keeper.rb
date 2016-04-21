@@ -1,0 +1,5 @@
+require 'file-tail'
+require 'bounce-keeper/cli'
+require 'bounce-keeper/keeper'
+require 'bounce-keeper/loader'
+require 'bounce-keeper/sender'

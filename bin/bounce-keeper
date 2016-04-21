@@ -1,0 +1,9 @@
+require 'file-tail'
+require_relative 'loader'
+
+class BounceListener
+  include Loader
+
+  load("example.log")
+
+end
