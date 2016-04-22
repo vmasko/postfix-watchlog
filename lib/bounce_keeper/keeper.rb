@@ -1,16 +1,27 @@
-module BounceKeeper
+module Bounce
 
   class Keeper
     class << self
 
-      def load(path)
+      def run(path)
         File.open(path) do |log|
-          log.extend(File::Tail)
-          log.backward(1)
-          log.tail do |line|
-            puts line if line.match /status=deferred|status=bounce/
+          log.backward(10)
+          extract(log)
+        end
+      end
+
+      def extract(log)
+        log.tail do |line|
+          if line.match /#{$line_selector}/
+            store(line.match /#{$string_selector}/)
           end
         end
+      end
+
+      def store(line)
+        out = File.new("#{ROOT}/tmp/queue.out", "a")
+        out.puts line
+        out.close
       end
 
     end

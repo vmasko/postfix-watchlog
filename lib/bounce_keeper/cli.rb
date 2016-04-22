@@ -1,11 +1,16 @@
-module BounceKeeper
+module Bounce
 
   class CLI
     class << self
 
       def start
-        puts "Hi! Log tracking has started."
-        BounceKeeper::Keeper.load("../test/example.log")
+        begin
+          puts "\tLog tracking has started..."
+          puts "\tPress Ctrl-C to stop service."
+          Bounce::Keeper.run($log_path)
+        rescue Interrupt => e
+          puts "\tService stopped."
+        end
       end
 
     end
