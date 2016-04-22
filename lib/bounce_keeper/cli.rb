@@ -5,10 +5,9 @@ module Bounce
 
       def start
         begin
-          puts "\tLog tracking has started..."
-          puts "\tPress Ctrl-C to stop service."
+          puts "\tService has started."
           Bounce::Keeper.run($log_path)
-        rescue Interrupt => e
+        rescue Interrupt
           puts "\tService stopped."
         end
       end
