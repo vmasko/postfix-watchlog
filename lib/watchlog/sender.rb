@@ -3,6 +3,8 @@ module Watchlog
   class Sender
     class << self
 
+      # Packs the incoming array into a hash, converts it to a JSON,
+      # sends it to the specified address with a POST request
       def post(arr)
         hash = { $type => arr }.to_json
         begin

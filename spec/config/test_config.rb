@@ -1,10 +1,8 @@
-ROOT = File.expand_path("../../", __FILE__)
-
 # Time zone (list—https://goo.gl/oerj22)
 ENV['TZ'] = "Europe/Moscow"
 
 # Path to the log
-$log_path = "#{ROOT}/tmp/example.log"
+$log_path = "spec/helpers/example.log"
 
 # Address of the server
 $address = "http://localhost:9000"

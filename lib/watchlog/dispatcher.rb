@@ -32,7 +32,7 @@ module Watchlog
 
       # Grabs the matching string, packs it into a hash along with current time,
       # appends the hash to an array, dispatches the array for sending if its
-      # size >= $threshold.
+      # size >= $threshold
       def pack(arr, line)
         begin
           arr << { (line.match /#{$string}/)[0] => Time.now.xmlschema }
