@@ -1,3 +1,6 @@
-##bounce-keeper
+##watchlog-client
 
-**bounce-keeper** is a simple parser for the logs produced by the **Postfix** MTA—it captures messages with `deferred` and `bounce` statuses, wraps their parameters into JSON and sends it to the receiver with a POST request.
+**Watchlog** is a simple log parser written in **Ruby**—it tails the specified log file, grabs the matching lines, packs the required parameters into a JSON hash and sends it to the receiver with a POST request.
+
+###Usage
+Update the **bin/config.rb** file before the first run, then launch `ruby bin/watchlog`.

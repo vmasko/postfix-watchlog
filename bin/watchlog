@@ -1,0 +1,5 @@
+require_relative '../lib/watchlog'
+require_relative 'config.rb'
+include Watchlog
+
+Watchlog::CLI.start

@@ -1,4 +1,4 @@
-module Bounce
+module Watchlog
 
   class CLI
     class << self
@@ -6,7 +6,7 @@ module Bounce
       def start
         begin
           puts "\tService has started."
-          Bounce::Keeper.run
+          Watchlog::Dispatcher.run
         rescue Interrupt
           puts "\tService stopped."
         end

@@ -1,4 +1,4 @@
-module Bounce
+module Watchlog
 
   class Sender
     class << self
@@ -15,7 +15,7 @@ module Bounce
           puts "\t#{res}"
         rescue Errno::ECONNREFUSED
           puts "\tError: connection refused."
-          puts "\tCheck the server status or address in the config file."
+          puts "\tCheck the server status or $address in the config file."
           exit
         end
       end

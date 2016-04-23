@@ -1,8 +1,22 @@
-ROOT = File.expand_path("../../", __FILE__)
+# Time zone (list—https://goo.gl/oerj22)
+ENV['TZ'] = "Europe/Moscow"
 
-$log_path = "#{ROOT}/tmp/example.log"   # Path to the Postfix log
-$out_path = "#{ROOT}/tmp/output.out"    # Path to the output file
-$line     = "bounce|deferred"           # Select lines with the specified words
-$string   = "(?<=to=<)(.*)(?=>.)"       # Extract this string from the line (default gets "to=<user_email>")
-$type     = :bounced                    # Type of the messages sent to receiver
-$address  = "http://localhost:9000"     # Address of the listening server
+# Path to the log
+$log_path = "#{ROOT}/tmp/example.log"
+
+# Address of the server
+$address = "http://localhost:9000"
+
+# Regexp: look for the lines with this words inside
+$line = "bounce|deferred"
+
+# Regexp: grab this data from the line and send it to the server
+# (now it looks for to=<user@email.com>)
+$string = "(?<=to=<)(.*)(?=>.)/"
+
+# Minimum number of the records to send with ONE request
+$threshold = 10
+
+# Head of the outgoing hash (to tell the server what happened with
+# that records—e.g. { bounced: [{ email: time }, { email: time }] })
+$type = :bounced
