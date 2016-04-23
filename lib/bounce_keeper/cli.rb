@@ -6,7 +6,7 @@ module Bounce
       def start
         begin
           puts "\tService has started."
-          Bounce::Keeper.run($log_path)
+          Bounce::Keeper.run
         rescue Interrupt
           puts "\tService stopped."
         end

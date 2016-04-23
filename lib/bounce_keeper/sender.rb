@@ -1,23 +1,25 @@
 module Bounce
 
   class Sender
+    class << self
 
-    def pack(f, type)
-      type = type.to_sym
-      hash = { type => {} }
-      file = File.open(f, "r")
-      file.each_line.with_index do |line, i|
-        hash[type][i.to_s] = { email: line, time: Time.now.xmlschema }
+      def post(arr)
+        hash = { $type => arr }.to_json
+        begin
+          uri = URI($address)
+          req = Net::HTTP::Post.new(uri, initheader = { 'Content-Type' => 'application/json' })
+          req.body = hash
+          res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+            http.request(req)
+          end
+          puts "\t#{res}"
+        rescue Errno::ECONNREFUSED
+          puts "\tError: connection refused."
+          puts "\tCheck the server status or address in the config file."
+          exit
+        end
       end
-      send(hash.to_json)
-    end
 
-    def send(hash)
-      uri = URI('https://myapp.com/api/v1/resource')
-      request = Net::HTTP::Post.new(uri, initheader = {'Content-Type' =>'application/json'})
-      request.body = hash
-      resp = http.request(request)
-      puts resp
     end
   end
 end
