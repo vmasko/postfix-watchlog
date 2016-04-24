@@ -6,3 +6,4 @@ include File::Tail
 require_relative 'watchlog/cli'
 require_relative 'watchlog/dispatcher'
 require_relative 'watchlog/sender'
+require_relative 'watchlog/helper'

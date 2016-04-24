@@ -1,23 +1,23 @@
 RSpec.describe Dispatcher do
   describe "#run" do
-    before  { allow(Dispatcher).to receive(:parse) { "Called Dispatcher#parse" } }
-    subject { described_class.run }
+    before  { allow(Dispatcher).to receive(:parse) { "Called Dispatcher::parse" } }
+    let(:call_run) { described_class.run }
 
     it "opens file" do
       silence do
-        subject
+        call_run
         expect(load_check($load_path)).to eq true
       end
     end
 
     it "notifies about Ctrl+C after open" do
       expect(STDOUT).to receive(:puts).with(String)
-      subject
+      call_run
     end
 
     it "calls #parse" do
       silence do
-        expect(subject).to eq "Called Dispatcher#parse"
+        expect(call_run).to eq "Called Dispatcher::parse"
       end
     end
 

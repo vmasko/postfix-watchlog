@@ -5,10 +5,10 @@ module Watchlog
 
       def start
         begin
-          puts "\tService has started."
-          Watchlog::Dispatcher.run
+          Helper::text(:start)
+          Dispatcher::run
         rescue Interrupt
-          puts "\tService stopped."
+          Helper::text(:interrupt)
         end
       end
 

@@ -27,6 +27,6 @@ end
 # Reloads test config after before each test
 RSpec.configure do |config|
   config.before(:each) do
-    load 'config/test_config.rb'
+    load 'helpers/test_config.rb'
   end
 end

@@ -6,6 +6,7 @@ module Watchlog
       # Packs the incoming array into a hash, converts it to a JSON,
       # sends it to the specified address with a POST request
       def post(arr)
+        attempts = $attempts
         hash = { $type => arr }.to_json
         begin
           uri = URI($address)
@@ -16,9 +17,14 @@ module Watchlog
           end
           puts "\t#{res}"
         rescue Errno::ECONNREFUSED
-          puts "\tError: connection refused."
-          puts "\tCheck the server status or $address in the config file."
-          exit
+          if (attempts -= 1) > 0
+            Helper::text(:retry)
+            sleep $time
+            retry
+          else
+            Helper::text(:fail)
+            exit
+          end
         end
       end
 

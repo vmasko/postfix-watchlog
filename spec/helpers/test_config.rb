@@ -2,7 +2,7 @@
 ENV['TZ'] = "Europe/Moscow"
 
 # Path to the log
-$log_path = "spec/helpers/example.log"
+$log_path = "spec/helpers/test_file.log"
 
 # Address of the server
 $address = "http://localhost:9000"
