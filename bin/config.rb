@@ -13,7 +13,7 @@ $address = "http://localhost:9000"
 $attempts = 10
 $time = 15
 
-# Regexp: look for the lines with this words inside
+# Regexp: look for the lines with these words inside
 # (without slashes)
 $line = "bounce|deferred"
 
