@@ -17,6 +17,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'webmock/rspec'
 require_relative "helpers/test_helper.rb"
 
 RSpec.configure do |config|

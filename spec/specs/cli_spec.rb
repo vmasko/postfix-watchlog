@@ -1,9 +1,10 @@
 RSpec.describe CLI do
 
   describe "::start" do
-    before  { allow(Dispatcher).to receive(:run) { "Called Dispatcher::run" } }
     let(:call_start) { described_class::start }
 
+    before { allow(Dispatcher).to receive(:run) { "Called Dispatcher::run" } }
+    
     it "notifies about start" do
       expect(STDOUT).to receive(:puts).with(String)
       call_start

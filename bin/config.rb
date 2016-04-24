@@ -25,5 +25,5 @@ $string = "(?<=to=<)(.*)(?=>.)"
 $threshold = 10
 
 # Head of the outgoing hash (to tell the server what happened with
-# that records—e.g. { bounced: [{ email: time }, { email: time }] })
+# that records—e.g. { bounced: [{ "email": "time" }, { "email": "time" }] })
 $type = :bounced

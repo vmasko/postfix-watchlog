@@ -1,21 +1,23 @@
 RSpec.describe Dispatcher do
-  describe "#run" do
-    before  { allow(Dispatcher).to receive(:parse) { "Called Dispatcher::parse" } }
-    let(:call_run) { described_class.run }
+
+  describe "::run" do
+    let(:call_run) { described_class::run }
+
+    before { allow(Dispatcher).to receive(:parse).with(File) { "Called Dispatcher::parse" } }
 
     it "opens file" do
       silence do
         call_run
-        expect(load_check($load_path)).to eq true
+        expect(check_load($load_path)).to eq true
       end
     end
 
-    it "notifies about Ctrl+C after open" do
+    it "notifies about open" do
       expect(STDOUT).to receive(:puts).with(String)
       call_run
     end
 
-    it "calls #parse" do
+    it "calls ::parse and passes a file to it" do
       silence do
         expect(call_run).to eq "Called Dispatcher::parse"
       end
@@ -25,35 +27,38 @@ RSpec.describe Dispatcher do
     # end
   end
 
-  describe "#parse" do
+  describe "::parse" do
+    let(:call_parse) { described_class::parse(File) }
+
+    before { allow(File).to receive(:tail) { "Called File::tail" } }
+
     it "tails the file" do
+      expect(call_parse).to eq "Called File::tail"
     end
 
-    it "calls #pack if line match pattern" do
-    end
+    # it "calls ::pack if line match pattern" do
+    # end
 
-    it "rescues RegexpError" do
-      # $line = "***=?"
-      # File.open($load_path) do |log|
-      # expect(described_class.parse(f)).to raise_error(RegexpError)
-      # f.close
-    end
+    # it "rescues RegexpError" do
+    # end
   end
 
-  describe "#pack" do
-    subject { described_class.pack([], "to=<test@email.com>") }
+  describe "::pack" do
+    let(:string)    { " to=<test@example.com> " }
+    let(:pack_post) { described_class::pack([1] * ($threshold - 1), string) }
+    let(:pack_wait) { described_class::pack([1] * ($threshold - 2), string) }
 
-    it "packs matched string into hash and appends it to array" do
+    before { allow(Sender).to receive(:post).with(Array) }
 
+    it "calls ::post and clears array if its size >= threshold" do
+      expect(pack_post).to eq []
     end
 
-    it "calls #post" do
+    it "does nothing if array size < threshold" do
+      expect(pack_wait).to be_nil
     end
 
-    it "clears array if its size > threshold" do
-    end
-
-    it "rescues RegexpError" do
-    end
+    # it "rescues RegexpError" do
+    # end
   end
 end

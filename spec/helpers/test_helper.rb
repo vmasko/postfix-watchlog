@@ -2,7 +2,7 @@ require_relative '../../lib/watchlog'
 include Watchlog
 
 # Checks file was loaded
-def load_check(path)
+def check_load(path)
   ObjectSpace.each_object(File) do |f|
     unless f.closed? && f.path == path
       return true
