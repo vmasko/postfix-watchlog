@@ -7,7 +7,7 @@ $log_path = "#{ROOT}/tmp/example.log"
 # Address of the server
 $address = "http://localhost:9000"
 
-# Regexp: look for the lines with this words inside
+# Regexp: look for the lines with these words inside
 $line = "bounce|deferred"
 
 # Regexp: grab this data from the line and send it to the server
