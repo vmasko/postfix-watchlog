@@ -18,7 +18,8 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'webmock/rspec'
-require_relative "helpers/test_helper.rb"
+require_relative '../lib/watchlog'
+include Watchlog
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

@@ -1,5 +1,5 @@
 require_relative '../lib/watchlog'
-require_relative 'config.rb'
 include Watchlog
+PATH = "bin/example.log"
 
-Watchlog::CLI::start
+Dispatcher.new(PATH).run
