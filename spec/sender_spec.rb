@@ -2,7 +2,7 @@ RSpec.describe Watchlog::Sender do
   let(:sender)      { Sender.new }
   let(:hash)        { { a: 123 } }
   let(:pass_limit)  { Sender::LIMIT.times { sender.process(hash) } }
-  let(:stub)        { stub_request(:any, Sender::ADDRESS)}
+  let(:stub)        { stub_request(:any, Sender::ADDRESS) }
 
   context '#should_deliver?' do
     it 'возвращает true, если размер data >= LIMIT' do

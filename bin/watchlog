@@ -1,5 +1,9 @@
 require_relative '../lib/watchlog'
 include Watchlog
-PATH = "bin/example.log"
+PATH = "bin/example.log" # Path to the log
 
-Dispatcher.new(PATH).run
+begin
+  Dispatcher.new(PATH).run
+rescue Interrupt
+  # mute Interrupt
+end

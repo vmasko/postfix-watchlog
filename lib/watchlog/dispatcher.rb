@@ -8,11 +8,15 @@ module Watchlog
     end
 
     def run
-      File.open(path) do |file|
-        file.tail do |line|
-          parser = Parser.new(line)
-          sender.process(parser.data) if parser.bounced?
+      begin
+        File.open(path) do |file|
+          file.tail do |line|
+            parser = Parser.new(line)
+            sender.process(parser.data) if parser.bounced?
+          end
         end
+      rescue Errno::ENOENT => message
+        puts message
       end
     end
 

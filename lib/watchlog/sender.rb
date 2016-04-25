@@ -1,12 +1,14 @@
 module Watchlog
   class Sender
     LIMIT   = 10
+    RETRIES = 10
+    BEFORE_RETRY = 15
     ADDRESS = 'http://localhost:9000'
     HTTP_ERRORS = [
-                    EOFError,
                     Errno::ECONNRESET,
                     Errno::EINVAL,
-                    Errno::ECONNREFUSED
+                    Errno::ECONNREFUSED,
+                    Timeout::Error
                   ]
     attr_accessor :data
 
@@ -35,7 +37,17 @@ module Watchlog
     end
 
     def deliver
-      cleanup if notify
+      r = RETRIES
+      begin
+        cleanup if notify
+      rescue *HTTP_ERRORS => message
+        if (r -= 1) > 0
+          puts "#{message}\nRetrying..."
+          sleep BEFORE_RETRY
+          retry
+        end
+        exit
+      end
     end
 
     def cleanup
