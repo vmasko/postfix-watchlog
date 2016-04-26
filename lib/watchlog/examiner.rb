@@ -1,5 +1,5 @@
 module Watchlog
-  class Analyzer
+  class Examiner
     PATH  = ARGV[2] || 'bin/output.log'
     attr_accessor :data
 

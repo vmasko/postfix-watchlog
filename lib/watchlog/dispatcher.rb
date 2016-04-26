@@ -5,12 +5,12 @@ module Watchlog
 
     def initialize(path)
       @path = path
-      @handler = mode
+      @handler = type
     end
 
     def run
       File.open(path) do |file|
-        file.each_line { |line| parse(line) }; handler.write; exit if MODE == 'analyzer'
+        file.each_line { |line| parse(line) }; handler.write; exit if mode('examine')
         file.tail      { |line| parse(line) }
       end
     rescue Errno::ENOENT => message
@@ -22,9 +22,12 @@ module Watchlog
       handler.process(parser.data) if parser.bounced?
     end
 
-    def mode
-      MODE == 'analyzer' ? Analyzer.new : Sender.new
+    def mode(name)
+      MODE.include?(name)
     end
 
+    def type
+      mode('examine') ? Examiner.new : Sender.new
+    end
   end
 end

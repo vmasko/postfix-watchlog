@@ -3,7 +3,7 @@ require 'json'
 require 'net/http'
 require 'file-tail'
 include File::Tail
-require_relative 'watchlog/analyzer'
+require_relative 'watchlog/examiner'
 require_relative 'watchlog/dispatcher'
 require_relative 'watchlog/parser'
 require_relative 'watchlog/sender'
