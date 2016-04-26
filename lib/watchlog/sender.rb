@@ -3,6 +3,7 @@ module Watchlog
     LIMIT   = 10
     RETRIES = 10
     BEFORE_RETRY = 15
+    BEFORE_PUSH  = 300
     ADDRESS = ENV['POSTFIX_API_ENDPOINT'] || 'http://localhost:9000'
     HTTP_ERRORS = [
                     Errno::ECONNRESET,
@@ -14,6 +15,7 @@ module Watchlog
 
     def initialize
       @data = []
+      start_catalyst
     end
 
     def process(hash)
@@ -37,8 +39,8 @@ module Watchlog
     end
 
     def deliver
-      r = RETRIES
-      cleanup if notify
+      r ||= RETRIES
+      cleanup(LIMIT) if notify
     rescue *HTTP_ERRORS => message
       if (r -= 1) > 0
         puts "#{message}\nRetrying..."
@@ -48,8 +50,21 @@ module Watchlog
       exit
     end
 
-    def cleanup
-      @data.shift(LIMIT)
+    def start_catalyst
+      s = Mutex.new
+      Thread.new { loop { s.synchronize { push } } }
+    end
+
+    def push
+      if data.size > 0
+        notify
+        cleanup(data.size)
+      end
+      sleep BEFORE_PUSH
+    end
+
+    def cleanup(amount)
+      @data.shift(amount)
     end
   end
 end

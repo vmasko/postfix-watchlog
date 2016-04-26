@@ -1,20 +1,30 @@
 module Watchlog
   class Dispatcher
-    MODE = ARGV[1]
+    MODE = ARGV[1] || 'send'
     attr_accessor :path, :handler
 
     def initialize(path)
-      @path = path
+      @path    = path
       @handler = type
     end
 
     def run
       File.open(path) do |file|
-        file.each_line { |line| parse(line) }; handler.write; exit if mode('examine')
-        file.tail      { |line| parse(line) }
+        examine(file) if mode('exam')
+        tail(file)    if mode('send')
       end
     rescue Errno::ENOENT => message
       puts message
+    end
+
+    def examine(file)
+      file.each_line { |line| parse(line) }
+      handler.write
+      exit
+    end
+
+    def tail(file)
+      file.tail { |line| parse(line) }
     end
 
     def parse(line)
@@ -27,7 +37,7 @@ module Watchlog
     end
 
     def type
-      mode('examine') ? Examiner.new : Sender.new
+      mode('exam') ? Examiner.new : Sender.new
     end
   end
 end
