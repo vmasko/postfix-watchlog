@@ -1,6 +1,6 @@
 RSpec.describe Watchlog::Parser do
   let(:bounced) { Parser.new('Aug 15 15:20:06 status=bounced to=<email1> (message1)') }
-  let(:smtp)    { Parser.new('Aug 16 15:20:06 status=bounced to=<email2> (message2)') }
+  let(:smtp)    { Parser.new('Aug 16 15:20:06 Relay access denied to=<email2> (message2)') }
   let(:nothing) { Parser.new('irrelevant string') }
 
   context '#bounced?' do
