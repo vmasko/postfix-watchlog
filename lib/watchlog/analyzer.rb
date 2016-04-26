@@ -1,6 +1,6 @@
 module Watchlog
   class Analyzer
-    PATH  = 'output.log'
+    PATH  = ARGV[2] || 'bin/output.log'
     attr_accessor :data
 
     def initialize
