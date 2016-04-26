@@ -15,7 +15,7 @@ module Watchlog
       {
         email:     line.match(EMAIL_TO).to_s,
         message:   line.match(MESSAGE).to_s,
-        timestamp: timestamp(line)
+        timestamp: timestamp
        }
     end
 
@@ -25,7 +25,7 @@ module Watchlog
       false
     end
 
-    def timestamp(line)
+    def timestamp
       Time.parse(line.match(TIMESTAMP).to_s).xmlschema
     end
   end

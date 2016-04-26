@@ -18,8 +18,8 @@ RSpec.describe Watchlog::Parser do
   end
 
   context '#data' do
-    let(:bounced_data) { { :email=>'email1', :message=>'message1', :timestamp=>'2016-08-15T15:20:06+03:00' } }
-    let(:smtp_data)    { { :email=>'email2', :message=>'message2', :timestamp=>'2016-08-16T15:20:06+03:00' } }
+    let(:bounced_data) { { :email=>'email1', :message=>'message1', :timestamp=> bounced.timestamp } }
+    let(:smtp_data)    { { :email=>'email2', :message=>'message2', :timestamp=> smtp.timestamp } }
 
     it 'возвращает хеш с data внутри' do
       expect(bounced.data).to eq bounced_data
