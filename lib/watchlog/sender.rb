@@ -3,7 +3,7 @@ module Watchlog
     LIMIT   = 10
     RETRIES = 10
     BEFORE_RETRY = 15
-    ADDRESS = 'http://localhost:9000'
+    ADDRESS = ENV['POSTFIX_API_ENDPOINT'] || 'http://localhost:9000'
     HTTP_ERRORS = [
                     Errno::ECONNRESET,
                     Errno::EINVAL,
@@ -38,16 +38,14 @@ module Watchlog
 
     def deliver
       r = RETRIES
-      begin
-        cleanup if notify
-      rescue *HTTP_ERRORS => message
-        if (r -= 1) > 0
-          puts "#{message}\nRetrying..."
-          sleep BEFORE_RETRY
-          retry
-        end
-        exit
+      cleanup if notify
+    rescue *HTTP_ERRORS => message
+      if (r -= 1) > 0
+        puts "#{message}\nRetrying..."
+        sleep BEFORE_RETRY
+        retry
       end
+      exit
     end
 
     def cleanup

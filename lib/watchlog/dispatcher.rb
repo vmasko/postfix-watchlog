@@ -1,23 +1,29 @@
 module Watchlog
   class Dispatcher
-    attr_accessor :path, :sender
+    MODE = ARGV[1]
+    attr_accessor :path, :handler
 
     def initialize(path)
       @path = path
-      @sender = Sender.new
+      @handler = mode
     end
 
     def run
-      begin
-        File.open(path) do |file|
-          file.tail do |line|
-            parser = Parser.new(line)
-            sender.process(parser.data) if parser.bounced?
-          end
-        end
-      rescue Errno::ENOENT => message
-        puts message
+      File.open(path) do |file|
+        file.each_line { |line| parse(line) }; handler.write; exit if MODE == 'analyzer'
+        file.tail      { |line| parse(line) }
       end
+    rescue Errno::ENOENT => message
+      puts message
+    end
+
+    def parse(line)
+      parser = Parser.new(line)
+      handler.process(parser.data) if parser.bounced?
+    end
+
+    def mode
+      MODE == 'analyzer' ? Analyzer.new : Sender.new
     end
 
   end
