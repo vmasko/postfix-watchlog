@@ -15,6 +15,7 @@ module Watchlog
 
     def initialize
       @data = []
+      @sync = Mutex.new
       start_catalyst
     end
 
@@ -51,8 +52,7 @@ module Watchlog
     end
 
     def start_catalyst
-      s = Mutex.new
-      Thread.new { loop { s.synchronize { push } } }
+      Thread.new { loop { @sync.synchronize { push } } }
     end
 
     def push

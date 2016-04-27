@@ -3,13 +3,13 @@ module Watchlog
     attr_accessor :path, :handler
 
     def initialize(path)
-      @path    = path
+      @path = path
       ARGV[1] == 'test' ? @handler = Tester.new : @handler = Sender.new
     end
 
     def run
       File.open(path) do |file|
-        test(file) if ARGV[1] = 'test'
+        test(file) if ARGV[1] == 'test'
         tail(file)
       end
     rescue Errno::ENOENT => message

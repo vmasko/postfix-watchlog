@@ -17,7 +17,13 @@ module Watchlog
       File.open(PATH, 'w') do |f|
         f.puts data.map(&:to_s).join("\n")
       end
-      counter.each { |key, value| puts "#{key}: #{value}\n"}
+      stats
+    end
+
+    def stats
+      counter.sort_by(&:last).reverse.each do |arr|
+        puts "#{arr[0]}: #{arr[1]}\n"
+      end
     end
   end
 end
