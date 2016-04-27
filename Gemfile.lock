@@ -5,8 +5,6 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
-    file-tail (1.1.1)
-      tins (~> 1.0)
     hashdiff (0.3.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
@@ -22,7 +20,6 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
     safe_yaml (1.0.4)
-    tins (1.10.1)
     webmock (1.24.5)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -32,7 +29,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  file-tail (~> 1.1.0)
   rspec (~> 3.4.0)
   webmock (~> 1.24.0)
 

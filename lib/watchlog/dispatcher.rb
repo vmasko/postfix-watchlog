@@ -23,7 +23,12 @@ module Watchlog
     end
 
     def tail(file)
-      file.tail { |line| parse(line) }
+      file.seek(0, IO::SEEK_END)
+      loop do
+        changes = file.read
+        changes.split("\n").each { |i| parse(i) } unless changes.empty?
+      end
+      sleep 1
     end
 
     def parse(line)

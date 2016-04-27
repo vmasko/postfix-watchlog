@@ -1,6 +1,6 @@
 RSpec.describe Watchlog::Parser do
-  let(:bounced) { Parser.new('Aug 15 15:20:06 status=bounced to=<email1> (message1)') }
-  let(:smtp)    { Parser.new('Aug 16 15:20:06 Relay access denied to=<email2> (message2)') }
+  let(:bounced) { Parser.new('Aug 15 15:20:06bstatus=bounced to host1[1]: to=<email1> (message1: status1)') }
+  let(:smtp)    { Parser.new('Aug 16 15:20:06 Relay access denied to host2[2]: to=<email2> (message2: status2)') }
   let(:nothing) { Parser.new('irrelevant string') }
 
   context '#bounced?' do
@@ -18,8 +18,24 @@ RSpec.describe Watchlog::Parser do
   end
 
   context '#data' do
-    let(:bounced_data) { { :email=>'email1', :message=>'message1', :status=>'', :timestamp=> bounced.timestamp } }
-    let(:smtp_data)    { { :email=>'email2', :message=>'message2', :status=>'', :timestamp=> smtp.timestamp } }
+    let(:bounced_data) do
+      {
+        email:     'email1',
+        host:      'host1[1]',
+        message:   'message1: status1',
+        status:    'status1',
+        timestamp: bounced.timestamp
+      }
+    end
+    let(:smtp_data) do
+      {
+        email:     'email2',
+        host:      'host2[2]',
+        message:   'message2: status2',
+        status:    'status2',
+        timestamp: smtp.timestamp
+      }
+    end
 
     it 'возвращает хеш с data внутри' do
       expect(bounced.data).to eq bounced_data
