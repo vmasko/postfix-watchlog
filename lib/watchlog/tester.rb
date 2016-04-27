@@ -13,7 +13,7 @@ module Watchlog
 
     def write
       File.open(PATH, 'w') do |f|
-        f.puts "#{{ errors: data }}"
+        f.puts data.map(&:to_s).join("\n")
       end
     end
   end
