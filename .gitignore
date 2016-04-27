@@ -1,2 +1,5 @@
 tmp/*
 bin/*.log
+.ruby-version
+.ruby-gemset
+.rvmrc
