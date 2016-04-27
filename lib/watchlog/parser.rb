@@ -3,7 +3,9 @@ module Watchlog
     STATUS_BOUNCED = /status=bounced|status=deferred/
     SMTP_ERROR     = /Relay access denied/
     EMAIL_TO       = /(?<=to=<)(.*?)(?=>)/
+    HOST           = /(?<=to\s)(.*?)(?=:)/
     MESSAGE        = /(?<=\()(.*?)(?=\))/
+    STATUS         = /.*:\s(.*?)\)$/
     TIMESTAMP      = /^.*:\d\d/
     attr_accessor :line
 
@@ -14,7 +16,9 @@ module Watchlog
     def data
       {
         email:     line.match(EMAIL_TO).to_s,
+        host:      line.match(HOST).to_s,
         message:   line.match(MESSAGE).to_s,
+        status:    line.match(STATUS)[1],
         timestamp: timestamp
        }
     end
