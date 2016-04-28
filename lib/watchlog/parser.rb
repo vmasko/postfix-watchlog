@@ -4,8 +4,8 @@ module Watchlog
     SMTP_ERROR     = /Relay access denied/
     YANDEX_LIMIT   = /<everyday@e-xecutive.ru> has exceeded|honest-mailers/
     EMAIL_TO       = /(?<=to=<)(.*?)(?=>)/
-    HOST           = /(?<=to\s)(.*?)(?=:)|(?<=name=)(.*?)(?=\s)/
-    MESSAGE        = /(?<=\()(.*?)(?=\))/
+    HOST           = /(?<=connect\sto\s)(.*?)(?=:)|(?<=name=)(.*?)(?=\s)|(?<=host\s)(.*?)(?=\ssaid)/
+    MESSAGE        = /(?<=\()(.*?)(?=\)$)/
     TIMESTAMP      = /^.*:\d{2}(?=\s\w)/
     TYPES = {
       'Connection timed out':             'Connection error',
