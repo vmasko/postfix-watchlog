@@ -44,7 +44,10 @@ module Watchlog
     end
 
     def type
-      TYPES.each { |m, t| return t if line.match(MESSAGE).to_s.include?(m.to_s) }
+      TYPES.each do |m, t|
+        return t if line.match(MESSAGE).to_s.include?(m.to_s)
+        return "Type undefined for: " + line.match(EMAIL_TO).to_s
+      end
     end
   end
 end
