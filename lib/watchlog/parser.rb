@@ -4,9 +4,18 @@ module Watchlog
     SMTP_ERROR     = /Relay access denied/
     YANDEX_LIMIT   = /<everyday@e-xecutive.ru> has exceeded|honest-mailers/
     EMAIL_TO       = /(?<=to=<)(.*?)(?=>)/
-    HOST           = /(?<=to\s)(.*?)(?=:)/
+    HOST           = /(?<=to\s)(.*?)(?=:)|(?<=name=)(.*?)(?=\s)/
     MESSAGE        = /(?<=\()(.*?)(?=\))/
     TIMESTAMP      = /^.*:\d{2}(?=\s\w)/
+    TYPES = {
+      'Connection timed out':             'Connection error',
+      'Connection refused':               'Connection error',
+      'Host not found, try again':        'Host not found',
+      'account is full':                  'Account is full',
+      'network is on our block':          'ISP block list',
+      'to reach is over quota':           'Account is over quota',
+      'service is currently unavailable': 'Service unavailable'
+    }
     attr_accessor :line
 
     def initialize(line)
@@ -35,23 +44,7 @@ module Watchlog
     end
 
     def type
-      if check_message('Connection')
-        'Connection error'
-      elsif check_message('over quota')
-        'Account is over quota'
-      elsif check_message('block list')
-        'Messages weren\'t sent'
-      elsif check_message('account is full')
-        'Account is full'
-      elsif check_message('currently unavailable')
-        'Service is currently unavailable'
-      elsif check_message('Host not found')
-        'Host not found'
-      end
-    end
-
-    def check_message(word)
-      line.match(MESSAGE).to_s.include?(word)
+      TYPES.each { |m, t| return t if line.match(MESSAGE).to_s.include?(m.to_s) }
     end
   end
 end

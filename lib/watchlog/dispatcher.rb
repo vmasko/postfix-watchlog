@@ -34,8 +34,9 @@ module Watchlog
     def parse(line)
       parser = Parser.new(line)
       handler.process(parser.data) if parser.bounced?
-    rescue StandardError
-      puts "Error on line: " + line
+    rescue StandardError => message
+      puts "Error: " + message.to_s
+      puts "Line: " + line
     end
   end
 end
