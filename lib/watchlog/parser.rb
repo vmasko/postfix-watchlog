@@ -2,6 +2,7 @@ module Watchlog
   class Parser
     STATUS_BOUNCED = /status=bounced|status=deferred/
     SMTP_ERROR     = /Relay access denied/
+    YANDEX_LIMIT   = /<everyday@e-xecutive.ru> has exceeded|honest-mailers/
     EMAIL_TO       = /(?<=to=<)(.*?)(?=>)/
     HOST           = /(?<=to\s)(.*?)(?=:)/
     MESSAGE        = /(?<=\()(.*?)(?=\))/
@@ -24,8 +25,9 @@ module Watchlog
     end
 
     def bounced?
-      return true if line.match STATUS_BOUNCED
-      return true if line.match SMTP_ERROR
+      return false if line.match YANDEX_LIMIT
+      return true  if line.match STATUS_BOUNCED
+      return true  if line.match SMTP_ERROR
       false
     end
 
