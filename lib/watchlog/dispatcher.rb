@@ -4,7 +4,7 @@ module Watchlog
 
     def initialize(path)
       @path = path
-      ARGV[1] == 'test' ? @handler = Tester.new : @handler = Sender.new
+      @handler = ARGV[1] == 'test' ? Tester.new : Sender.new
     end
 
     def run
@@ -34,6 +34,8 @@ module Watchlog
     def parse(line)
       parser = Parser.new(line)
       handler.process(parser.data) if parser.bounced?
+    rescue StandardError => message
+      puts "Error on line: " + line
     end
   end
 end

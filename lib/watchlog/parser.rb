@@ -6,7 +6,7 @@ module Watchlog
     HOST           = /(?<=to\s)(.*?)(?=:)/
     MESSAGE        = /(?<=\()(.*?)(?=\))/
     STATUS         = /.*:\s(.*?)\)$/
-    TIMESTAMP      = /^.*:\d\d/
+    TIMESTAMP      = /^.*:\d{2}(?=\s\w)/
     attr_accessor :line
 
     def initialize(line)
