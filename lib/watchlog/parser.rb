@@ -6,7 +6,6 @@ module Watchlog
     EMAIL_TO       = /(?<=to=<)(.*?)(?=>)/
     HOST           = /(?<=to\s)(.*?)(?=:)/
     MESSAGE        = /(?<=\()(.*?)(?=\))/
-    STATUS         = /.*:\s(.*?)\)$/
     TIMESTAMP      = /^.*:\d{2}(?=\s\w)/
     attr_accessor :line
 
@@ -19,7 +18,7 @@ module Watchlog
         email:     line.match(EMAIL_TO).to_s,
         host:      line.match(HOST).to_s,
         message:   line.match(MESSAGE).to_s,
-        status:    line.match(STATUS)[1],
+        type:      type,
         timestamp: timestamp
        }
     end
@@ -33,6 +32,26 @@ module Watchlog
 
     def timestamp
       Time.parse(line.match(TIMESTAMP).to_s).xmlschema
+    end
+
+    def type
+      if check_message('Connection')
+        'Connection error'
+      elsif check_message('over quota')
+        'Account is over quota'
+      elsif check_message('block list')
+        'Messages weren\'t sent'
+      elsif check_message('account is full')
+        'Account is full'
+      elsif check_message('currently unavailable')
+        'Service is currently unavailable'
+      elsif check_message('Host not found')
+        'Host not found'
+      end
+    end
+
+    def check_message(word)
+      line.match(MESSAGE).to_s.include?(word)
     end
   end
 end

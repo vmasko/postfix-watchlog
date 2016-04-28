@@ -10,7 +10,7 @@ module Watchlog
 
     def process(hash)
       data << hash
-      @counter[hash[:status]] += 1
+      @counter[hash[:type]] += 1
     end
 
     def write
