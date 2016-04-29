@@ -37,7 +37,7 @@ module Watchlog
 
     def type
       TYPES.each { |m, t| return t if line.match(m) }
-      return line.match(TYPE).to_s
+      return 'Add new type for this message: ' + line.match(MESSAGE).to_s
     end
   end
 end

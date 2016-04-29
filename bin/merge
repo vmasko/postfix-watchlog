@@ -1,0 +1,17 @@
+PATH = ARGV[0] || './'
+
+def merge(target, opened)
+  File.readlines(opened).each do |line|
+    target << line unless line.include?('require_relative')
+  end
+end
+
+File.open("#{PATH}watchlog", 'w') do |merged|
+  Dir.glob('lib/**/*.rb').reverse.each do |rb|
+    merge(merged, rb)
+  end
+end
+
+File.open("#{PATH}watchlog", 'a') do |merged|
+  merge(merged, 'bin/watchlog')
+end
