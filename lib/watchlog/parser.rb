@@ -6,16 +6,8 @@ module Watchlog
     EMAIL_TO       = /(?<=to=<)(.*?)(?=>)/
     HOST           = /(?<=connect\sto\s)(.*?)(?=:)|(?<=name=)(.*?)(?=\s)|(?<=host\s)(.*?)(?=\ssaid)/
     MESSAGE        = /(?<=\()(.*?)(?=\)$)/
+    TYPE           = /(?<=said:)(.*?)(?=\s\()/
     TIMESTAMP      = /^.*:\d{2}(?=\s\w)/
-    TYPES = {
-      'Connection timed out':             'Connection error',
-      'Connection refused':               'Connection error',
-      'Host not found, try again':        'Host not found',
-      'account is full':                  'Account is full',
-      'network is on our block':          'ISP block list',
-      'to reach is over quota':           'Account is over quota',
-      'service is currently unavailable': 'Service unavailable'
-    }
     attr_accessor :line
 
     def initialize(line)
@@ -44,8 +36,8 @@ module Watchlog
     end
 
     def type
-      TYPES.each { |m, t| return t if line.match(MESSAGE).to_s.include?(m.to_s) }
-      return "Type undefined for: " + line.match(EMAIL_TO).to_s
+      TYPES.each { |m, t| return t if line.match(m) }
+      return line.match(TYPE).to_s
     end
   end
 end
