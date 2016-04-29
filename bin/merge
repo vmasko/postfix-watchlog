@@ -6,12 +6,12 @@ def merge(target, opened)
   end
 end
 
-File.open("#{PATH}watchlog", 'w') do |merged|
+File.open("#{PATH}watchlog-merged", 'w') do |merged|
   Dir.glob('lib/**/*.rb').reverse.each do |rb|
     merge(merged, rb)
   end
 end
 
-File.open("#{PATH}watchlog", 'a') do |merged|
+File.open("#{PATH}watchlog-merged", 'a') do |merged|
   merge(merged, 'bin/watchlog')
 end
