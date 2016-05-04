@@ -25,11 +25,12 @@ RSpec.describe Watchlog::Tester do
   end
 
   context '#stats' do
-    let(:hash)  { { status: 'Connection refused' } }
+    let(:hash)  { { type: 'Connection refused' } }
     let(:stats) { tester.stats }
+    
     it 'выводит количество статусов по убыванию' do
       build_data
-      tester.process(status: 'Connection timed out')
+      tester.process(type: 'Connection timed out')
       expect { stats }.to output("Connection refused: 3\nConnection timed out: 1\n").to_stdout
     end
   end

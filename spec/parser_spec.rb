@@ -1,6 +1,6 @@
 RSpec.describe Watchlog::Parser do
-  let(:bounced) { Parser.new('Aug 15 15:20:06bstatus=bounced to host1[1]: to=<email1> (message1: status1)') }
-  let(:smtp)    { Parser.new('Aug 16 15:20:06 Relay access denied to host2[2]: to=<email2> (message2: status2)') }
+  let(:bounced) { Parser.new('Aug 15 15:20:06 status=bounced connect to host1[1]: to=<email1> (msg: connection refused)') }
+  let(:smtp)    { Parser.new('Aug 16 15:20:06 Relay access denied connect to host2[2]: to=<email2> (msg: relay access denied)') }
   let(:nothing) { Parser.new('irrelevant string') }
 
   context '#bounced?' do
@@ -22,8 +22,8 @@ RSpec.describe Watchlog::Parser do
       {
         email:     'email1',
         host:      'host1[1]',
-        message:   'message1: status1',
-        status:    'status1',
+        message:   'msg: connection refused',
+        type:      'Connection error',
         timestamp: bounced.timestamp
       }
     end
@@ -31,8 +31,8 @@ RSpec.describe Watchlog::Parser do
       {
         email:     'email2',
         host:      'host2[2]',
-        message:   'message2: status2',
-        status:    'status2',
+        message:   'msg: relay access denied',
+        type:      'Relaying denied',
         timestamp: smtp.timestamp
       }
     end
@@ -40,6 +40,19 @@ RSpec.describe Watchlog::Parser do
     it 'возвращает хеш с data внутри' do
       expect(bounced.data).to eq bounced_data
       expect(smtp.data).to eq smtp_data
+    end
+  end
+
+  context '#type' do
+    let(:known_error)   { Parser.new('(the message considered as spam)')}
+    let(:unknown_error) { Parser.new('(unknown error)') }
+
+    it 'возвращает тип ошибки после итерации по словарю' do
+      expect(known_error.type).to eq 'Spam suspicion'
+    end
+
+    it 'возвращает строку с просьбой добавить новый тип ошибки' do
+      expect(unknown_error.type).to eq 'Add new type for this message: unknown error'
     end
   end
 end
