@@ -1,10 +1,13 @@
+require 'json'
+require 'net/http'
+
 module Watchlog
   class Sender
     LIMIT   = 10
     RETRIES = 10
     BEFORE_RETRY = 15
     BEFORE_PUSH  = 300
-    ADDRESS = ENV['POSTFIX_API_ENDPOINT'] || 'http://localhost:9000'
+    ENDPOINT = ENV['ENDPOINT'] || 'http://localhost:9000'
     HTTP_ERRORS = [
                     Errno::ECONNRESET,
                     Errno::EINVAL,
@@ -33,7 +36,7 @@ module Watchlog
     end
 
     def notify
-      uri = URI(ADDRESS)
+      uri = URI(ENDPOINT)
       req = Net::HTTP::Post.new(uri, initheader = { 'Content-Type' => 'application/json' })
       req.body = payload
       Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }

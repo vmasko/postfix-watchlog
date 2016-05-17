@@ -1,3 +1,5 @@
+require 'time'
+
 module Watchlog
   class Parser
     STATUS_BOUNCED = /status=bounced|status=deferred/

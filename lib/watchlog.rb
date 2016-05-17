@@ -1,6 +1,3 @@
-require 'time'
-require 'json'
-require 'net/http'
 require_relative 'watchlog/tester'
 require_relative 'watchlog/dispatcher'
 require_relative 'watchlog/types'
