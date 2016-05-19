@@ -4,15 +4,15 @@ RSpec.describe Watchlog::Parser do
   let(:nothing) { Parser.new('irrelevant string') }
 
   context '#bounced?' do
-    it 'возвращает true, если строка соответствует STATUS_BOUNCED' do
+    it 'returns true if line matches STATUS_BOUNCED' do
       expect(bounced.bounced?).to eq true
     end
 
-    it 'возвращает true, если строка соответствует SMTP_ERROR' do
+    it 'returns true if line matches SMTP_ERROR' do
       expect(smtp.bounced?).to eq true
     end
 
-    it 'возвращает false, если соответствий нет' do
+    it 'returns false if line matches nothing' do
       expect(nothing.bounced?).to eq false
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe Watchlog::Parser do
       }
     end
 
-    it 'возвращает хеш с data внутри' do
+    it 'returns a hash containing data' do
       expect(bounced.data).to eq bounced_data
       expect(smtp.data).to eq smtp_data
     end
@@ -47,11 +47,11 @@ RSpec.describe Watchlog::Parser do
     let(:known_error)   { Parser.new('(the message considered as spam)')}
     let(:unknown_error) { Parser.new('(unknown error)') }
 
-    it 'возвращает тип ошибки после итерации по словарю' do
+    it 'returns clean error type' do
       expect(known_error.type).to eq 'Spam suspicion'
     end
 
-    it 'возвращает строку с просьбой добавить новый тип ошибки' do
+    it 'returns prompt to add type for an unknown message' do
       expect(unknown_error.type).to eq 'Add new type for this message: unknown error'
     end
   end

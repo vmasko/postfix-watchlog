@@ -4,7 +4,7 @@ RSpec.describe Watchlog::Tester do
   let(:build_data) { 3.times { tester.process(hash) } }
 
   context '#process' do
-    it 'добавляет хеш в data' do
+    it 'appends a hash to data' do
       tester.process(hash)
       expect(tester.data).to eq [{ a: 123 }]
     end
@@ -15,7 +15,7 @@ RSpec.describe Watchlog::Tester do
     let(:cleanup)  { File.delete(Tester::PATH) }
     let(:mute)     { allow(STDOUT).to receive(:puts) }
 
-    it 'пишет data в файл с переносами строк между хешами' do
+    it 'writes data to a file with newline chars between each hash' do
       mute
       build_data
       tester.write
@@ -27,8 +27,8 @@ RSpec.describe Watchlog::Tester do
   context '#stats' do
     let(:hash)  { { type: 'Connection refused' } }
     let(:stats) { tester.stats }
-    
-    it 'выводит количество статусов по убыванию' do
+
+    it 'prints out number of statuses, sorted by descending order' do
       build_data
       tester.process(type: 'Connection timed out')
       expect { stats }.to output("Connection refused: 3\nConnection timed out: 1\n").to_stdout
